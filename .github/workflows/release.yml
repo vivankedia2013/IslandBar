@@ -1,0 +1,39 @@
+name: Release installers
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            args: ''
+          - os: macos-latest
+            args: '--target universal-apple-darwin'
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.os == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+      - uses: swatinem/rust-cache@v2
+        with: { workspaces: './src-tauri -> target' }
+      - run: npm install
+      - run: npx tauri icon assets/icon.png
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MACOSX_DEPLOYMENT_TARGET: '11.0'
+        with:
+          tagName: ${{ github.ref_name }}
+          releaseName: 'IslandBar ${{ github.ref_name }}'
+          releaseBody: 'Windows 10/11: IslandBar_*_x64-setup.exe. macOS Big Sur (11) or newer: IslandBar_*_universal.dmg.'
+          releaseDraft: false
+          args: ${{ matrix.args }}
