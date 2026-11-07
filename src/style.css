@@ -29,3 +29,42 @@ input[type=range]{width:90%;padding:0;accent-color:#0a84ff}
 #aiIn{flex:1}
 a{color:#0a84ff;cursor:pointer}
 #mTitle{max-width:90%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+nav button{padding:4px 11px}
+.big{font-size:17px;font-weight:600;max-width:92%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.huge{font-size:34px;font-weight:600}
+#npArtist{max-width:92%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#wxIn{flex:1;min-width:0}
+
+/* smooth motion */
+body.notch{--ew:420px}body.circle{--ew:390px}
+#panel{position:absolute;top:0;left:50%;width:var(--ew);margin-left:calc(var(--ew) / -2);height:260px}
+@keyframes fin{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+body.open #panel{animation:fin .22s ease-out .06s both}
+body:not(.open) #pill{animation:fin .22s ease-out .1s both}
+.tab.on{animation:fin .18s ease-out}
+#island{transition:border-radius .24s cubic-bezier(.2,.8,.2,1)}
+button{transition:background .15s,transform .1s}
+button:active{transform:scale(.94)}
+nav button{transition:background .15s,transform .1s}
+input[type=range]{transition:opacity .15s}
+#pillDot{transition:background .3s}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+nav button{padding:4px 9px}
+.meter{display:flex;align-items:center;gap:8px;width:92%}
+.meter span{width:34px;text-align:left;color:#aaa;font-size:11px}
+.meter b{width:40px;text-align:right;font-variant-numeric:tabular-nums}
+.bar{flex:1;height:8px;background:#1c1c1e;border-radius:4px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:#30d158;border-radius:4px;transition:width .5s ease,background .3s}
+#cpuGraph{width:92%;height:34px;background:#111;border-radius:8px}
+#mon .row.small{justify-content:space-between;width:92%}
+
+/* extra polish */
+@keyframes fin2{from{opacity:0;transform:translateY(-8px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes fout{to{opacity:0;transform:translateY(-4px)}}
+body.open #panel{animation:fin2 .26s cubic-bezier(.2,.8,.2,1) .05s both;will-change:opacity,transform}
+body.closing #panel{animation:fout .13s ease-in both}
+.tab.on{animation:fin2 .2s cubic-bezier(.2,.8,.2,1)}
+#island{will-change:border-radius}
+.bar i{transition:width .6s cubic-bezier(.2,.8,.2,1),background .3s}
+input[type=range]{cursor:pointer}

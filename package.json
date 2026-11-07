@@ -1,6 +1,6 @@
 {
   "name": "islandbar",
-  "version": "0.1.0",
+  "version": "0.1.7",
   "private": true,
   "scripts": { "dev": "tauri dev", "build": "tauri build", "tauri": "tauri" },
   "devDependencies": { "@tauri-apps/cli": "^2" }

@@ -7,14 +7,23 @@
   <div id="panel">
     <nav>
       <button data-t="timer" class="on" title="Focus timer">⏱</button>
-      <button data-t="music" title="Music">♪</button>
+      <button data-t="nowp" title="Now playing">♫</button>
+      <button data-t="music" title="Play files">📁</button>
       <button data-t="vol" title="Volume">🔊</button>
+      <button data-t="wx" title="Weather">⛅</button>
       <button data-t="ai" title="Claude">✦</button>
+      <button data-t="use" title="Claude usage">📊</button>
+      <button data-t="mon" title="Activity monitor">📈</button>
     </nav>
     <section id="timer" class="tab on">
       <div id="tBig">25:00</div><div id="tMode">Focus</div>
       <div class="row"><button id="tGo">Start</button><button id="tReset">Reset</button><button id="tSkip">Skip</button></div>
       <div class="row small">Focus <input id="fMin" type="number" min="1" max="180" value="25"> Break <input id="bMin" type="number" min="1" max="60" value="5"></div>
+    </section>
+    <section id="nowp" class="tab">
+      <div id="npTitle" class="big">Nothing playing</div>
+      <div id="npArtist" class="small"></div>
+      <div class="row"><button id="npPrev">⏮</button><button id="npPlay">▶</button><button id="npNext">⏭</button></div>
     </section>
     <section id="music" class="tab">
       <div id="mTitle">No track loaded</div>
@@ -27,10 +36,32 @@
       <input id="vSlide" type="range" min="0" max="100" value="50">
       <div class="small">System master volume</div>
     </section>
+    <section id="wx" class="tab">
+      <div class="row"><span id="wxIcon" class="huge">⛅</span><span id="wxTemp" class="huge">--°</span></div>
+      <div id="wxCity">Loading…</div>
+      <div id="wxMore" class="small"></div>
+      <div class="row"><input id="wxIn" placeholder="Search city"><button id="wxGo">Go</button></div>
+      <div class="row small"><a id="wxAuto">My location</a> · <a id="wxUnit">°C / °F</a></div>
+    </section>
     <section id="ai" class="tab">
       <div id="aiOut">Ask Claude anything…</div>
       <div class="row"><input id="aiIn" placeholder="Message Claude" autocomplete="off"><button id="aiSend">↑</button></div>
       <div class="row small"><a id="aiKey">API key</a> · <a id="aiWeb">Open claude.ai</a></div>
+    </section>
+    <section id="use" class="tab">
+      <div id="uToday" class="big">Today: 0 tokens</div>
+      <div id="uSplit" class="small"></div>
+      <div id="uLimit" class="small">Rate limit: press Refresh</div>
+      <div id="uReset" class="small"></div>
+      <div class="row"><button id="uRefresh">Refresh</button><button id="uWeb">Open claude.ai</button></div>
+      <div class="small">Counts chats made in IslandBar (API key)</div>
+    </section>
+    <section id="mon" class="tab">
+      <div class="meter"><span>CPU</span><div class="bar"><i id="cpuBar"></i></div><b id="cpuT">0%</b></div>
+      <div class="meter"><span>RAM</span><div class="bar"><i id="ramBar"></i></div><b id="ramT">0%</b></div>
+      <svg id="cpuGraph" viewBox="0 0 100 24" preserveAspectRatio="none"><polyline id="cpuLine" points="" fill="none" stroke="#0a84ff" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg>
+      <div class="row small"><span id="netT">↓ 0 · ↑ 0</span><span id="batT"></span></div>
+      <div id="ramD" class="small"></div>
     </section>
   </div>
 </div>
