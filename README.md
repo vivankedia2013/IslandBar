@@ -55,3 +55,6 @@ The island sits at top-center, directly under the camera. On notched MacBooks it
 
 ## Motion
 The island resizes with a native, GPU-driven animation (macOS NSAnimationContext; Windows SetWindowPos at ~120 fps), hover-intent delay avoids accidental opening, and panels fade out before shrinking.
+
+## Full screen
+The island stays on top of full-screen apps and on every Space on macOS, and above borderless full-screen windows on Windows (not exclusive full-screen games).

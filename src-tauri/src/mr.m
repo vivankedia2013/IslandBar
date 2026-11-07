@@ -58,19 +58,25 @@ int ib_send(int cmd) {
 void ib_raise(void *w) {
     NSWindow *win = (__bridge NSWindow *)w;
     if (!win) return;
-    [win setLevel:NSMainMenuWindowLevel + 2];
+    [win setLevel:NSPopUpMenuWindowLevel];
     [win setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces |
                                NSWindowCollectionBehaviorFullScreenAuxiliary |
-                               NSWindowCollectionBehaviorStationary];
+                               NSWindowCollectionBehaviorStationary |
+                               NSWindowCollectionBehaviorIgnoresCycle];
     [win setHidesOnDeactivate:NO];
 }
 
 // Height of the camera notch (0 on Macs without one) so the island starts just below it.
+// Uses a runtime selector check (no @available) so it also links on every toolchain.
 double ib_notch_height(void) {
     double h = 0;
-    if (@available(macOS 12.0, *)) {
-        for (NSScreen *s in [NSScreen screens]) {
-            if (s.safeAreaInsets.top > h) h = s.safeAreaInsets.top;
+    SEL sel = NSSelectorFromString(@"safeAreaInsets");
+    for (NSScreen *s in [NSScreen screens]) {
+        if (![s respondsToSelector:sel]) continue;
+        NSValue *v = [s valueForKey:@"safeAreaInsets"];
+        if (v) {
+            NSEdgeInsets in = [v edgeInsetsValue];
+            if (in.top > h) h = in.top;
         }
     }
     return h;
