@@ -1,0 +1,38 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
+<link rel="stylesheet" href="style.css"><title>IslandBar</title></head>
+<body class="notch">
+<div id="island">
+  <div id="pill"><span id="pillDot"></span><span id="pillT"></span></div>
+  <div id="panel">
+    <nav>
+      <button data-t="timer" class="on" title="Focus timer">⏱</button>
+      <button data-t="music" title="Music">♪</button>
+      <button data-t="vol" title="Volume">🔊</button>
+      <button data-t="ai" title="Claude">✦</button>
+    </nav>
+    <section id="timer" class="tab on">
+      <div id="tBig">25:00</div><div id="tMode">Focus</div>
+      <div class="row"><button id="tGo">Start</button><button id="tReset">Reset</button><button id="tSkip">Skip</button></div>
+      <div class="row small">Focus <input id="fMin" type="number" min="1" max="180" value="25"> Break <input id="bMin" type="number" min="1" max="60" value="5"></div>
+    </section>
+    <section id="music" class="tab">
+      <div id="mTitle">No track loaded</div>
+      <input id="seek" type="range" min="0" max="100" value="0">
+      <div class="row"><button id="mPrev">⏮</button><button id="mPlay">▶</button><button id="mNext">⏭</button><button id="mOpen">+ Files</button></div>
+      <input id="mFiles" type="file" accept="audio/*" multiple hidden>
+    </section>
+    <section id="vol" class="tab">
+      <div id="vBig">50%</div>
+      <input id="vSlide" type="range" min="0" max="100" value="50">
+      <div class="small">System master volume</div>
+    </section>
+    <section id="ai" class="tab">
+      <div id="aiOut">Ask Claude anything…</div>
+      <div class="row"><input id="aiIn" placeholder="Message Claude" autocomplete="off"><button id="aiSend">↑</button></div>
+      <div class="row small"><a id="aiKey">API key</a> · <a id="aiWeb">Open claude.ai</a></div>
+    </section>
+  </div>
+</div>
+<script src="main.js"></script>
+</body></html>

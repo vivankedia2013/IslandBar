@@ -1,0 +1,31 @@
+*{box-sizing:border-box;margin:0;padding:0;-webkit-user-select:none;user-select:none}
+html,body{width:100%;height:100%;background:transparent;overflow:hidden;font:13px -apple-system,"Segoe UI",system-ui,sans-serif;color:#fff}
+#island{width:100%;height:100%;background:#000;position:relative;overflow:hidden;transition:border-radius .2s}
+body.notch #island{border-radius:0 0 18px 18px}
+body.notch.open #island{border-radius:0 0 28px 28px}
+body.circle #island{border-radius:50%}
+body.circle.open #island{border-radius:34px}
+#pill{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:8px;font-variant-numeric:tabular-nums}
+#pillDot{width:8px;height:8px;border-radius:50%;background:#555}
+#pillDot.run{background:#30d158}
+body.circle:not(.open) #pillT{display:none}
+body.open #pill{display:none}
+#panel{display:none;height:100%;padding:12px 16px;flex-direction:column;gap:8px}
+body.open #panel{display:flex}
+nav{display:flex;justify-content:center;gap:6px}
+nav button{background:#1c1c1e;border-radius:12px;padding:4px 14px}
+nav button.on{background:#3a3a3c}
+.tab{display:none;flex:1;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center}
+.tab.on{display:flex}
+.row{display:flex;gap:6px;align-items:center;justify-content:center;width:100%}
+.small{font-size:11px;color:#aaa}
+button{all:unset;cursor:pointer;background:#2c2c2e;padding:5px 12px;border-radius:14px;color:#fff;text-align:center}
+button:hover{background:#48484a}
+input{-webkit-user-select:text;user-select:text;background:#1c1c1e;border:0;border-radius:10px;padding:5px 8px;color:#fff;outline:none}
+input[type=number]{width:46px}
+input[type=range]{width:90%;padding:0;accent-color:#0a84ff}
+#tBig,#vBig{font-size:34px;font-weight:600;font-variant-numeric:tabular-nums}
+#aiOut{flex:1;width:100%;overflow:auto;text-align:left;font-size:12px;-webkit-user-select:text;user-select:text;white-space:pre-wrap}
+#aiIn{flex:1}
+a{color:#0a84ff;cursor:pointer}
+#mTitle{max-width:90%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
