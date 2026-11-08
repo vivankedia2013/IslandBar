@@ -298,10 +298,10 @@ fn main() {
             }
             let al = app.autolaunch();
             let auto = CheckMenuItem::with_id(app, "auto", "Launch at login", true, al.is_enabled().unwrap_or(false), None::<&str>)?;
-            let notch = MenuItem::with_id(app, "notch", "Notch shape", true, None::<&str>)?;
-            let circle = MenuItem::with_id(app, "circle", "Circle shape", true, None::<&str>)?;
+            let notch = MenuItem::with_id(app, "notch", "Notch shape (attached to top)", true, None::<&str>)?;
+            let island = MenuItem::with_id(app, "island", "Island shape (iPhone style)", true, None::<&str>)?;
             let quit = MenuItem::with_id(app, "quit", "Quit IslandBar", true, None::<&str>)?;
-            let menu = Menu::with_items(app, &[&notch, &circle, &auto, &quit])?;
+            let menu = Menu::with_items(app, &[&notch, &island, &auto, &quit])?;
             TrayIconBuilder::new()
                 .icon(app.default_window_icon().unwrap().clone())
                 .menu(&menu)

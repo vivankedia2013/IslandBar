@@ -1,67 +1,103 @@
 <!doctype html>
-<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
 <link rel="stylesheet" href="style.css"><title>IslandBar</title></head>
 <body class="notch">
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" fill="currentColor"/></symbol>
+  <symbol id="i-next" viewBox="0 0 24 24"><path d="M6 6l9 6-9 6zM16.5 6H19v12h-2.5z" fill="currentColor"/></symbol>
+  <symbol id="i-prev" viewBox="0 0 24 24"><path d="M18 6l-9 6 9 6zM7.5 6H5v12h2.5z" fill="currentColor"/></symbol>
+  <symbol id="i-note" viewBox="0 0 24 24"><path d="M9 18V5l11-2v13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6" cy="18" r="3" fill="currentColor"/><circle cx="17" cy="16" r="3" fill="currentColor"/></symbol>
+</defs></svg>
+
 <div id="island">
-  <div id="pill"><span id="pillDot"></span><span id="pillT"></span></div>
+  <!-- collapsed view -->
+  <div id="pill">
+    <div id="pIdle"><span id="pillDot"></span><span id="pillT"></span></div>
+    <div id="pMusic">
+      <div id="art"><svg><use href="#i-note"/></svg></div>
+      <div class="mq"><span id="pSong"></span></div>
+      <div id="pRight"><span id="pTimer"></span><div class="eq" id="eq"><i></i><i></i><i></i><i></i></div></div>
+    </div>
+  </div>
+
+  <!-- expanded view -->
   <div id="panel">
-    <nav>
-      <button data-t="timer" class="on" title="Focus timer">⏱</button>
-      <button data-t="nowp" title="Now playing">♫</button>
-      <button data-t="music" title="Play files">📁</button>
-      <button data-t="vol" title="Volume">🔊</button>
-      <button data-t="wx" title="Weather">⛅</button>
-      <button data-t="ai" title="Claude">✦</button>
-      <button data-t="use" title="Claude usage">📊</button>
-      <button data-t="mon" title="Activity monitor">📈</button>
+    <nav id="nav">
+      <button data-t="timer" class="on" title="Focus timer"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9.5 3h5"/></svg></button>
+      <button data-t="nowp" title="Now playing"><svg viewBox="0 0 24 24"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg></button>
+      <button data-t="music" title="My files"><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></button>
+      <button data-t="vol" title="Volume"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg></button>
+      <button data-t="wx" title="Weather"><svg viewBox="0 0 24 24"><circle cx="9" cy="9" r="3"/><path d="M9 2.5V4M2.5 9H4M4.4 4.4l1.1 1.1M13.6 4.4l-1.1 1.1"/><path d="M8 20h9a4 4 0 0 0 .5-7.97A5 5 0 0 0 8 13.5 3.25 3.25 0 0 0 8 20z"/></svg></button>
+      <button data-t="ai" title="Claude"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 15l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/></svg></button>
+      <button data-t="use" title="Claude usage"><svg viewBox="0 0 24 24"><path d="M6 20v-9M12 20V4M18 20v-6"/></svg></button>
+      <button data-t="mon" title="Activity"><svg viewBox="0 0 24 24"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg></button>
     </nav>
+
     <section id="timer" class="tab on">
-      <div id="tBig">25:00</div><div id="tMode">Focus</div>
-      <div class="row"><button id="tGo">Start</button><button id="tReset">Reset</button><button id="tSkip">Skip</button></div>
-      <div class="row small">Focus <input id="fMin" type="number" min="1" max="180" value="25"> Break <input id="bMin" type="number" min="1" max="60" value="5"></div>
+      <div class="ringwrap">
+        <svg viewBox="0 0 100 100" class="ring"><circle class="rt" cx="50" cy="50" r="44"/><circle id="rf" class="rf" cx="50" cy="50" r="44"/></svg>
+        <div class="rc"><div id="tBig" class="num">25:00</div><div id="tMode" class="lbl">Focus</div></div>
+      </div>
+      <div class="side">
+        <div class="ctl"><button class="btn pri" id="tGo">Start</button><button class="btn" id="tReset">Reset</button><button class="btn" id="tSkip">Skip</button></div>
+        <div class="mini">Focus <input id="fMin" type="number" min="1" max="180"> min<br>Break <input id="bMin" type="number" min="1" max="60"> min</div>
+      </div>
     </section>
+
     <section id="nowp" class="tab">
-      <div id="npTitle" class="big">Nothing playing</div>
-      <div id="npArtist" class="small"></div>
-      <div class="row"><button id="npPrev">⏮</button><button id="npPlay">▶</button><button id="npNext">⏭</button></div>
+      <div class="npTop">
+        <div class="bigart"><svg><use href="#i-note"/></svg></div>
+        <div class="npText"><div id="npTitle" class="title">Nothing playing</div><div id="npArtist" class="sub">Play music in a browser or app</div></div>
+      </div>
+      <div class="ctl center"><button class="rbtn" id="npPrev"><svg><use href="#i-prev"/></svg></button><button class="rbtn pri" id="npPlay"><svg><use href="#i-play"/></svg></button><button class="rbtn" id="npNext"><svg><use href="#i-next"/></svg></button></div>
     </section>
-    <section id="music" class="tab">
-      <div id="mTitle">No track loaded</div>
-      <input id="seek" type="range" min="0" max="100" value="0">
-      <div class="row"><button id="mPrev">⏮</button><button id="mPlay">▶</button><button id="mNext">⏭</button><button id="mOpen">+ Files</button></div>
+
+    <section id="music" class="tab col">
+      <div id="mTitle" class="title">No track loaded</div>
+      <input id="seek" class="rng" type="range" min="0" max="100" value="0">
+      <div class="ctl center"><button class="rbtn" id="mPrev"><svg><use href="#i-prev"/></svg></button><button class="rbtn pri" id="mPlay"><svg><use href="#i-play"/></svg></button><button class="rbtn" id="mNext"><svg><use href="#i-next"/></svg></button></div>
+      <button class="btn" id="mOpen">Add audio files…</button>
       <input id="mFiles" type="file" accept="audio/*" multiple hidden>
     </section>
-    <section id="vol" class="tab">
-      <div id="vBig">50%</div>
-      <input id="vSlide" type="range" min="0" max="100" value="50">
-      <div class="small">System master volume</div>
+
+    <section id="vol" class="tab col">
+      <div id="vBig" class="num xl">50%</div>
+      <input id="vSlide" class="rng wide" type="range" min="0" max="100" value="50">
+      <div class="sub">System master volume</div>
     </section>
-    <section id="wx" class="tab">
-      <div class="row"><span id="wxIcon" class="huge">⛅</span><span id="wxTemp" class="huge">--°</span></div>
-      <div id="wxCity">Loading…</div>
-      <div id="wxMore" class="small"></div>
-      <div class="row"><input id="wxIn" placeholder="Search city"><button id="wxGo">Go</button></div>
-      <div class="row small"><a id="wxAuto">My location</a> · <a id="wxUnit">°C / °F</a></div>
+
+    <section id="wx" class="tab col">
+      <div class="wxrow"><div id="wxIcon" class="wxi">⛅</div><div><div id="wxTemp" class="num xl">--°</div><div id="wxCity" class="sub">Loading…</div></div></div>
+      <div id="wxMore" class="sub"></div>
+      <div class="ctl center"><input id="wxIn" class="inp" placeholder="Search city"><button class="btn" id="wxGo">Go</button></div>
+      <div class="links"><a id="wxAuto">My location</a><a id="wxUnit">°C / °F</a></div>
     </section>
-    <section id="ai" class="tab">
-      <div id="aiOut">Ask Claude anything…</div>
-      <div class="row"><input id="aiIn" placeholder="Message Claude" autocomplete="off"><button id="aiSend">↑</button></div>
-      <div class="row small"><a id="aiKey">API key</a> · <a id="aiWeb">Open claude.ai</a></div>
+
+    <section id="ai" class="tab col">
+      <div id="aiOut" class="aiout">Ask Claude anything…</div>
+      <div id="aiKeyRow" class="ctl" hidden><input id="aiKeyIn" class="inp" type="password" placeholder="Paste Anthropic API key"><button class="btn pri" id="aiKeySave">Save</button></div>
+      <div class="ctl"><input id="aiIn" class="inp" placeholder="Message Claude" autocomplete="off"><button class="btn pri" id="aiSend">Send</button></div>
+      <div class="links"><a id="aiKey">API key</a><a id="aiWeb">Open claude.ai</a></div>
     </section>
-    <section id="use" class="tab">
-      <div id="uToday" class="big">Today: 0 tokens</div>
-      <div id="uSplit" class="small"></div>
-      <div id="uLimit" class="small">Rate limit: press Refresh</div>
-      <div id="uReset" class="small"></div>
-      <div class="row"><button id="uRefresh">Refresh</button><button id="uWeb">Open claude.ai</button></div>
-      <div class="small">Counts chats made in IslandBar (API key)</div>
+
+    <section id="use" class="tab col">
+      <div class="stats">
+        <div class="stat"><div id="uToday" class="num">0</div><div class="lbl">Tokens today</div></div>
+        <div class="stat"><div id="uReq" class="num">0</div><div class="lbl">Requests</div></div>
+        <div class="stat"><div id="uLeft" class="num">–</div><div class="lbl">Limit left</div></div>
+      </div>
+      <div id="uSplit" class="sub"></div>
+      <div id="uLimit" class="sub">Rate limit: press Refresh</div>
+      <div id="uReset" class="sub"></div>
+      <div class="ctl center"><button class="btn pri" id="uRefresh">Refresh</button><button class="btn" id="uWeb">Open claude.ai</button></div>
     </section>
-    <section id="mon" class="tab">
+
+    <section id="mon" class="tab col">
       <div class="meter"><span>CPU</span><div class="bar"><i id="cpuBar"></i></div><b id="cpuT">0%</b></div>
-      <div class="meter"><span>RAM</span><div class="bar"><i id="ramBar"></i></div><b id="ramT">0%</b></div>
-      <svg id="cpuGraph" viewBox="0 0 100 24" preserveAspectRatio="none"><polyline id="cpuLine" points="" fill="none" stroke="#0a84ff" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg>
-      <div class="row small"><span id="netT">↓ 0 · ↑ 0</span><span id="batT"></span></div>
-      <div id="ramD" class="small"></div>
+      <div class="meter"><span>Memory</span><div class="bar"><i id="ramBar"></i></div><b id="ramT">0%</b></div>
+      <svg id="cpuGraph" viewBox="0 0 100 24" preserveAspectRatio="none"><polyline id="cpuLine" points="" fill="none" stroke="#0a84ff" stroke-width="1.6" vector-effect="non-scaling-stroke"/></svg>
+      <div class="split"><span id="netT" class="sub">↓ 0 · ↑ 0</span><span id="batT" class="sub"></span></div>
     </section>
   </div>
 </div>

@@ -1,60 +1,48 @@
+<div align="center">
+
 # IslandBar
-A tiny dynamic island for Windows 10/11 and macOS 11 (Big Sur)+. Built with Tauri (~5-10 MB, low idle RAM).
 
-**Features:** notch or circle shape (switch from tray icon), hover to expand, focus/break timer shown in the pill,
-local media player, live music control of other apps, weather, system master volume, Claude chat (Anthropic API key), Esc to collapse.
+**A dynamic island for your desktop.**
+iPhone-style notch and pill, now-playing music, focus timer, weather, volume, Claude chat and a live system monitor, in a tiny, fast app.
 
-## Build installers (GitHub)
-1. Push this repo to GitHub.
-2. `git tag v0.1.0 && git push --tags`
-3. Actions builds a Windows `.exe` installer and a universal macOS `.dmg`, attached to the Release.
+[Download](../../releases/latest) · [Report a bug](../../issues)
 
-## Run locally
-Requires Node 18+, Rust, and the Tauri prerequisites for your OS.
+</div>
+
+## Features
+- **Two looks:** *Notch* (attached to the top edge) or *Island* (floating iPhone-style pill). Switch from the tray icon.
+- **Music on the island:** whatever you play (browser, Spotify, Apple Music, any app) appears on the collapsed island with an animated equalizer and scrolling title. Expand it to play, pause and skip.
+- **Focus timer:** progress-ring Pomodoro with custom focus and break lengths.
+- **System volume:** real master volume control.
+- **Weather:** auto location or any city, °C/°F, works offline from cache.
+- **Claude chat + usage:** chat from the island with your Anthropic API key; see tokens used and rate-limit reset time.
+- **Activity monitor:** CPU, memory, network and battery, sampled only while the tab is open.
+- **Light on resources:** native Rust + the system webview, about 3 MB installer, no polling while idle beyond a tiny media check.
+- **Stays on top:** above full-screen apps and on every desktop (macOS); under the camera on notched MacBooks.
+
+## Requirements
+Windows 10 / 11 (64-bit) or macOS Big Sur 11 and newer (Intel and Apple Silicon).
+
+## Install
+1. Open the [latest release](../../releases/latest).
+2. **Windows:** run `IslandBar_*_x64-setup.exe`. If SmartScreen warns, click *More info* then *Run anyway*.
+3. **macOS:** open `IslandBar_*_universal.dmg`, drag IslandBar to Applications, then right-click it and choose *Open* the first time.
+
+Hover over the island to expand it. Press `Esc` to collapse. Use the tray / menu-bar icon to change shape, enable *Launch at login* or quit.
+
+## Notes
+- Music from browsers on macOS works on macOS 11 to 15.3. On 15.4 and newer Apple restricts it, so Spotify and Apple Music still work.
+- Claude chat needs an [Anthropic API key](https://console.anthropic.com). Signing in with a Google account is only possible on claude.ai (use the *Open claude.ai* link).
+- Installers are not code-signed, so first launch shows a security prompt.
+
+## Build from source
+Needs Node 18+, Rust and the [Tauri prerequisites](https://tauri.app/start/prerequisites/).
 ```
 npm install
 npx tauri icon assets/icon.png
-npm run dev
+npm run build
 ```
-## Notes
-- Builds are unsigned: Windows SmartScreen / macOS Gatekeeper will warn (right-click > Open on Mac).
-- On macOS the island sits below the menu bar unless the window level is raised (see roadmap).
-- Roadmap: control other apps' playback (media keys), launch at login, notch-aware placement on MacBooks.
+Or push a tag (`git tag v1.0.0 && git push --tags`) and GitHub Actions builds both installers.
 
-## Offline
-Everything except the Claude chat works with no internet. The Windows installer downloads WebView2 only if it is missing.
-To bundle it for fully offline installs, set `"webviewInstallMode": {"type": "offlineInstaller"}` in `src-tauri/tauri.conf.json` (+~120 MB).
-Tray icon menu: Notch shape / Circle shape / Launch at login / Quit.
-
-## Supported systems
-Windows 10 and 11 (x64) · macOS Big Sur 11 and newer (Intel + Apple Silicon, universal).
-
-## Build on your own machine instead of GitHub
-- Windows: `powershell -ExecutionPolicy Bypass -File scripts/build-windows.ps1`
-- macOS: `./scripts/build-macos.sh`
-
-## Live music control
-- Windows 10/11: shows and controls whatever is playing (browser, Spotify, etc.) via the system media API.
-- macOS: anything playing, including browsers, via the system media interface (macOS 11 to 15.3). On macOS 15.4+ Apple blocks this for third-party apps, so only Spotify and Apple Music work there (allow the permission prompt).
-
-## Weather
-Uses Open-Meteo (free, no key). Auto-detects your city from your IP, or search a city. Cached, so it shows the last result offline.
-
-## Claude usage tab (📊)
-Shows tokens used today by chats made inside IslandBar, plus the API rate-limit remaining and reset time when the server reports it.
-It cannot show claude.ai subscription limits (no public API for that); use the "Open claude.ai" button for those.
-
-## Smooth motion
-The island grows and shrinks with an eased animation (about 0.2 s), with content fading in; honours the system 'reduce motion' setting for CSS effects.
-
-## Activity monitor (📈)
-Live CPU, memory, network speed and battery with a CPU history graph. It only samples (every 1.5 s) while the tab is open, so idle cost is zero.
-
-## Position
-The island sits at top-center, directly under the camera. On notched MacBooks it starts just below the notch; on other Macs it sits over the menu bar (above it, on every Space and over full-screen apps). On Windows it sits at the top of the screen.
-
-## Motion
-The island resizes with a native, GPU-driven animation (macOS NSAnimationContext; Windows SetWindowPos at ~120 fps), hover-intent delay avoids accidental opening, and panels fade out before shrinking.
-
-## Full screen
-The island stays on top of full-screen apps and on every Space on macOS, and above borderless full-screen windows on Windows (not exclusive full-screen games).
+## License
+MIT. See [LICENSE](LICENSE).
